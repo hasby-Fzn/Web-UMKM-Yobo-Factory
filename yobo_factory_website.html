@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Website UMKM Yobo Factory. Temukan produk, cerita usaha, dan informasi pemesanan.">
+  <title>Yobo Factory | UMKM Kreatif</title>
+  <style>
+    :root {
+      --ink: #243027;
+      --green: #315b42;
+      --light-green: #e8f0e5;
+      --cream: #fbf7ef;
+      --orange: #e69b54;
+      --white: #fff;
+      --muted: #687269;
+      --shadow: 0 12px 32px rgba(36, 48, 39, .10);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: Arial, Helvetica, sans-serif; color: var(--ink); background: var(--cream); line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1100px, 90%); margin: auto; }
+    header { position: sticky; top: 0; z-index: 10; background: rgba(251,247,239,.95); backdrop-filter: blur(12px); border-bottom: 1px solid #e8e2d7; }
+    .nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .logo { font-size: 1.35rem; font-weight: 800; letter-spacing: -.5px; color: var(--green); }
+    .logo span { color: var(--orange); }
+    nav { display: flex; gap: 24px; align-items: center; }
+    nav a { font-size: .95rem; font-weight: 700; }
+    nav a:hover { color: var(--green); }
+    .menu-toggle { display: none; border: 0; background: var(--light-green); padding: 9px 12px; border-radius: 8px; font-size: 1.2rem; }
+    .hero { padding: 78px 0 70px; background: radial-gradient(circle at 85% 20%, #f2dfc5 0, transparent 27%), linear-gradient(135deg, #f8f2e7, #e8f0e5); overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: 50px; }
+    .eyebrow { color: var(--green); font-weight: 800; text-transform: uppercase; letter-spacing: 2px; font-size: .78rem; }
+    h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.08; margin: 14px 0 20px; letter-spacing: -2px; }
+    h1 em { color: var(--green); font-style: normal; }
+    .hero p { max-width: 520px; color: var(--muted); font-size: 1.08rem; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 20px; border-radius: 999px; font-weight: 800; border: 2px solid var(--green); transition: .2s; cursor: pointer; }
+    .btn-primary { background: var(--green); color: white; }
+    .btn-primary:hover { background: #23432f; transform: translateY(-2px); }
+    .btn-outline { color: var(--green); }
+    .btn-outline:hover { background: white; }
+    .hero-art { min-height: 330px; display: grid; place-items: center; position: relative; }
+    .blob { width: min(340px, 85vw); height: 310px; background: var(--green); border-radius: 46% 54% 59% 41% / 43% 39% 61% 57%; display: grid; place-items: center; transform: rotate(-5deg); box-shadow: var(--shadow); }
+    .product-illustration { transform: rotate(5deg); width: 220px; height: 230px; border-radius: 24px; background: #f6dfb9; display: grid; place-items: center; text-align: center; padding: 20px; box-shadow: 0 15px 0 rgba(0,0,0,.08); }
+    .product-illustration .symbol { font-size: 5rem; line-height: 1; }
+    .product-illustration strong { font-size: 1.6rem; color: var(--green); }
+    .floating-note { position: absolute; right: 0; bottom: 16px; background: white; padding: 12px 16px; border-radius: 14px; box-shadow: var(--shadow); font-weight: 800; }
+    section { padding: 76px 0; }
+    .section-heading { text-align: center; max-width: 650px; margin: 0 auto 38px; }
+    .section-heading h2 { font-size: clamp(1.9rem, 3vw, 2.7rem); line-height: 1.2; margin: 8px 0 12px; }
+    .section-heading p { color: var(--muted); }
+    .about-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 42px; align-items: center; }
+    .about-card { background: var(--light-green); border-radius: 24px; min-height: 260px; display: grid; place-items: center; padding: 28px; text-align: center; }
+    .about-card .big-icon { font-size: 5rem; }
+    .about-card h3 { color: var(--green); font-size: 1.4rem; }
+    .about-copy h2 { font-size: 2.2rem; line-height: 1.2; margin: 8px 0 18px; }
+    .about-copy p { color: var(--muted); margin-bottom: 14px; }
+    .values { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+    .pill { background: white; border: 1px solid #dbe4d8; border-radius: 999px; padding: 7px 12px; font-weight: 700; font-size: .88rem; }
+    #produk { background: #fffdf8; }
+    .products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .product-card { background: white; border: 1px solid #eee8de; border-radius: 20px; padding: 18px; box-shadow: 0 6px 20px rgba(36,48,39,.04); transition: .2s; }
+    .product-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+    .product-image { height: 170px; border-radius: 15px; background: var(--light-green); display: grid; place-items: center; font-size: 4.5rem; margin-bottom: 16px; }
+    .product-card:nth-child(2) .product-image { background: #f8e8d3; }
+    .product-card:nth-child(3) .product-image { background: #eee6f7; }
+    .product-card h3 { font-size: 1.18rem; margin-bottom: 6px; }
+    .product-card p { color: var(--muted); font-size: .94rem; min-height: 48px; }
+    .product-bottom { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 18px; }
+    .price { color: var(--green); font-weight: 800; }
+    .small-btn { border: 0; border-radius: 999px; padding: 9px 13px; background: var(--green); color: white; font-weight: 800; cursor: pointer; }
+    .small-btn:hover { background: #23432f; }
+    .notice { font-size: .85rem; color: var(--muted); text-align: center; margin-top: 22px; }
+    .why-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .why-card { padding: 24px; border-radius: 18px; background: white; border: 1px solid #eee8de; }
+    .why-card .icon { font-size: 2rem; }
+    .why-card h3 { margin: 10px 0 6px; }
+    .why-card p { color: var(--muted); font-size: .95rem; }
+    .contact { background: var(--green); color: white; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    .contact h2 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; margin: 10px 0 16px; }
+    .contact p { color: #e1ebe2; }
+    .contact .eyebrow { color: #f3c58e; }
+    .contact-panel { background: white; color: var(--ink); border-radius: 22px; padding: 26px; }
+    .contact-panel label { display: block; font-weight: 700; margin: 12px 0 5px; }
+    .contact-panel input, .contact-panel textarea, .contact-panel select { width: 100%; padding: 12px; border: 1px solid #d9dfd7; border-radius: 10px; font: inherit; background: #fffdf8; }
+    .contact-panel textarea { resize: vertical; min-height: 90px; }
+    .contact-panel .btn { width: 100%; margin-top: 16px; }
+    .contact-hint { color: var(--muted); font-size: .82rem; margin-top: 10px; }
+    footer { padding: 24px 0; background: #203c2b; color: #dce6dc; font-size: .9rem; }
+    .footer-row { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    @media (max-width: 780px) {
+      .menu-toggle { display: block; }
+      nav { display: none; position: absolute; top: 72px; left: 0; right: 0; background: var(--cream); padding: 18px 5%; flex-direction: column; align-items: flex-start; border-bottom: 1px solid #e8e2d7; }
+      nav.open { display: flex; }
+      .hero { padding: 55px 0; }
+      .hero-grid, .about-grid, .contact-grid { grid-template-columns: 1fr; }
+      .hero-grid { gap: 25px; }
+      .hero-art { min-height: 300px; }
+      .products, .why-grid { grid-template-columns: 1fr; }
+      .product-image { height: 190px; }
+      section { padding: 58px 0; }
+      .about-grid { gap: 25px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="logo" href="#beranda">YOBO<span> FACTORY</span></a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Buka menu" aria-expanded="false">☰</button>
+      <nav id="navMenu">
+        <a href="#beranda">Beranda</a>
+        <a href="#tentang">Tentang</a>
+        <a href="#produk">Produk</a>
+        <a href="#keunggulan">Keunggulan</a>
+        <a href="#kontak">Pemesanan</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="beranda">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">UMKM lokal • Kreatif • Berkualitas</div>
+          <h1>Kenalan dengan <em>Yobo Factory</em></h1>
+          <p>Tempat untuk menemukan produk pilihan dari usaha lokal. Kami ingin menghadirkan pengalaman belanja yang praktis, ramah, dan berkesan.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#produk">Lihat Produk</a>
+            <a class="btn btn-outline" href="#tentang">Tentang Kami</a>
+          </div>
+        </div>
+        <div class="hero-art" aria-label="Ilustrasi produk Yobo Factory">
+          <div class="blob">
+            <div class="product-illustration">
+              <div class="symbol">🛍️</div>
+              <strong>YOBO</strong>
+              <span>Made with care</span>
+            </div>
+          </div>
+          <div class="floating-note">✨ Produk pilihan, layanan ramah</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tentang">
+      <div class="container about-grid">
+        <div class="about-card">
+          <div>
+            <div class="big-icon">🏪</div>
+            <h3>Usaha Lokal, Semangat Besar</h3>
+            <p>Melangkah bersama pelanggan dan komunitas.</p>
+          </div>
+        </div>
+        <div class="about-copy">
+          <div class="eyebrow">Tentang Yobo Factory</div>
+          <h2>Usaha kecil dengan tujuan memberi yang terbaik.</h2>
+          <p>Yobo Factory adalah UMKM yang ingin tumbuh melalui produk yang menarik, pelayanan yang baik, dan hubungan yang dekat dengan pelanggan.</p>
+          <p>Website ini menjadi tempat untuk mengenal usaha kami, melihat katalog produk, dan menghubungi kami untuk bertanya atau melakukan pemesanan.</p>
+          <div class="values">
+            <span class="pill">✓ Mengutamakan kualitas</span>
+            <span class="pill">✓ Pelayanan ramah</span>
+            <span class="pill">✓ Mendukung UMKM</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="produk">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">Katalog</div>
+          <h2>Produk Yobo Factory</h2>
+          <p>Berikut contoh tampilan katalog. Silakan ganti nama, foto, deskripsi, dan harga sesuai produk asli Yobo Factory.</p>
+        </div>
+        <div class="products">
+          <article class="product-card">
+            <div class="product-image">🎁</div>
+            <h3>Produk Andalan</h3>
+            <p>Produk pilihan yang cocok untuk kebutuhan sehari-hari atau hadiah.</p>
+            <div class="product-bottom">
+              <span class="price">Hubungi kami</span>
+              <button class="small-btn" onclick="pesanProduk('Produk Andalan')">Pesan</button>
+            </div>
+          </article>
+          <article class="product-card">
+            <div class="product-image">🌿</div>
+            <h3>Produk Favorit</h3>
+            <p>Produk menarik dengan perhatian pada detail dan kualitas.</p>
+            <div class="product-bottom">
+              <span class="price">Hubungi kami</span>
+              <button class="small-btn" onclick="pesanProduk('Produk Favorit')">Pesan</button>
+            </div>
+          </article>
+          <article class="product-card">
+            <div class="product-image">⭐</div>
+            <h3>Paket Spesial</h3>
+            <p>Pilihan paket yang bisa disesuaikan dengan kebutuhan pelanggan.</p>
+            <div class="product-bottom">
+              <span class="price">Hubungi kami</span>
+              <button class="small-btn" onclick="pesanProduk('Paket Spesial')">Pesan</button>
+            </div>
+          </article>
+        </div>
+        <p class="notice">Catatan: nama dan contoh produk di atas masih berupa contoh, bukan daftar produk terverifikasi.</p>
+      </div>
+    </section>
+
+    <section id="keunggulan">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">Kenapa Yobo Factory?</div>
+          <h2>Belanja lebih mudah dan nyaman</h2>
+          <p>Kami ingin membangun usaha yang dipercaya dan terus berkembang bersama pelanggan.</p>
+        </div>
+        <div class="why-grid">
+          <article class="why-card">
+            <div class="icon">💚</div>
+            <h3>Perhatian pada Kualitas</h3>
+            <p>Setiap produk ditampilkan dengan informasi yang jelas agar pelanggan lebih mudah memilih.</p>
+          </article>
+          <article class="why-card">
+            <div class="icon">💬</div>
+            <h3>Mudah Dihubungi</h3>
+            <p>Pelanggan dapat mengirim pertanyaan atau permintaan pemesanan melalui kontak usaha.</p>
+          </article>
+          <article class="why-card">
+            <div class="icon">🤝</div>
+            <h3>Mendukung Usaha Lokal</h3>
+            <p>Dengan mengenal dan membeli produk UMKM, kita ikut membantu usaha lokal berkembang.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="kontak">
+      <div class="container contact-grid">
+        <div>
+          <div class="eyebrow">Hubungi Kami</div>
+          <h2>Tertarik dengan produk Yobo Factory?</h2>
+          <p>Isi formulir ini untuk menyiapkan pesan pemesanan. Masukkan nomor WhatsApp usaha pada kode website agar pesan bisa langsung dikirim.</p>
+        </div>
+        <form class="contact-panel" id="orderForm">
+          <h3>Formulir Pemesanan</h3>
+          <label for="customerName">Nama</label>
+          <input id="customerName" name="customerName" placeholder="Nama kamu" required>
+          <label for="productName">Produk</label>
+          <select id="productName" name="productName" required>
+            <option value="">Pilih produk</option>
+            <option>Produk Andalan</option>
+            <option>Produk Favorit</option>
+            <option>Paket Spesial</option>
+          </select>
+          <label for="quantity">Jumlah</label>
+          <input id="quantity" name="quantity" type="number" min="1" value="1" required>
+          <label for="message">Catatan (opsional)</label>
+          <textarea id="message" name="message" placeholder="Tulis pertanyaan atau catatan pesanan"></textarea>
+          <button class="btn btn-primary" type="submit">Siapkan Pesan</button>
+          <p class="contact-hint">Demo: tombol akan membuka WhatsApp jika nomor usaha sudah diatur di kode. Jangan masukkan data sensitif.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <span>© <span id="year"></span> Yobo Factory</span>
+      <span>Dukung UMKM lokal, tumbuhkan ekonomi bersama.</span>
+    </div>
+  </footer>
+
+  <script>
+    // GANTI dengan nomor WhatsApp usaha, gunakan kode negara tanpa tanda +.
+    // Contoh format Indonesia: 62812xxxxxxxx
+    const NOMOR_WHATSAPP = "";
+
+    const menuToggle = document.getElementById("menuToggle");
+    const navMenu = document.getElementById("navMenu");
+    menuToggle.addEventListener("click", () => {
+      const isOpen = navMenu.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+    });
+    navMenu.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        navMenu.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    function pesanProduk(namaProduk) {
+      document.getElementById("productName").value = namaProduk;
+      document.getElementById("kontak").scrollIntoView({ behavior: "smooth" });
+      document.getElementById("customerName").focus({ preventScroll: true });
+    }
+
+    document.getElementById("orderForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      const nama = document.getElementById("customerName").value.trim();
+      const produk = document.getElementById("productName").value;
+      const jumlah = document.getElementById("quantity").value;
+      const catatan = document.getElementById("message").value.trim();
+      const pesan = `Halo Yobo Factory, saya ${nama}. Saya ingin memesan ${produk} sebanyak ${jumlah}.${catatan ? " Catatan: " + catatan : ""}`;
+      if (!NOMOR_WHATSAPP) {
+        alert("Formulir berhasil disiapkan! Untuk mengirim pesan ke WhatsApp, isi NOMOR_WHATSAPP di bagian JavaScript dengan nomor usaha Yobo Factory.");
+        const url = "https://wa.me/?text=" + encodeURIComponent(pesan);
+        window.open(url, "_blank", "noopener,noreferrer");
+        return;
+      }
+      window.open("https://wa.me/" + NOMOR_WHATSAPP + "?text=" + encodeURIComponent(pesan), "_blank", "noopener,noreferrer");
+    });
+  </script>
+</body>
+</html>
